@@ -43,6 +43,14 @@ async function get(endpoint, options){
 }
 async function post(endpoint, options){
   return new Promise((res, rej) => T.post(endpoint, options, function(err, data, response){
+     if (err){
+      rej(err)
+    }
+    res(data)
+ }))
+}
+async function postdm(endpoint, options){
+  return new Promise((res, rej) => T.post(endpoint, options, function(err, data, response){
      if (!err.code == 162){
       rej(err)
     }
@@ -83,7 +91,7 @@ async function compare(){
             }else if(data[0].friends_count == 0){
               reason = 'Unfollowed All/Locked'
             } 
-           let funkyinfo = await post('friendships/create', {user_id: data[0].id_str})
+           let funkyinfo = await postdm('friendships/create', {user_id: data[0].id_str})
             if(funkyinfo){
               reason = 'Blocked'
             }
@@ -91,6 +99,7 @@ async function compare(){
           console.log(`userid: ${data[0].id_str} \n handle: ${data[0].name} \n nickname: ${data[0].screen_name}`)
           } 
       }
+      reason = 'Unfollowed'
       initial_ids = new_ids
       info = [] // huh
       
