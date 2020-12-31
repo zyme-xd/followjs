@@ -1,8 +1,8 @@
 {
   "name": "followjs",
   "version": "1.0.0",
-  "description": "twitter follow tracker",
   "main": "index.js",
+  "description": "twitter follow tracker",
   "dependencies": {
     "dotenv": "^8.2.0",
     "twit": "^2.2.11"
