@@ -1,0 +1,16 @@
+{
+  "name": "followjs",
+  "version": "1.0.0",
+  "description": "twitter follow tracker",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
