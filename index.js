@@ -17,8 +17,7 @@ main()
  for(i=0; time > i; i++){
    if(i < time){
     subid = initial_ids.splice(0,99)
-    await delay(10000)
-    // await delay(60000)
+    await delay(120000)
     info.push(await get('users/lookup', {user_id: subid}))
    } else if(i ==  time){
     subid = initial_ids.splice(0,initial_ids.length)
@@ -28,8 +27,7 @@ main()
  info = info.flat()
  console.log(info)
  while(true){
-   await delay(10000)
-  // await delay(120000)
+  await delay(120000)
    await compare()
  }
 }
@@ -75,6 +73,7 @@ async function getid(){
   return ids
 }
 async function compare(){
+  console.log('comparison starting')
    global.reason = 'Unfollowed'
     let new_ids = await getid()
     console.log('fetched new ids')
@@ -82,8 +81,10 @@ async function compare(){
       // if ur reading this i need to finish writing this for loop i took this pic b4 i finished this
       if(new_ids.indexOf(info[i].id_str) == -1){
        let data = await get('users/lookup', {user_id: info[i].id_str})
+       console.log('looking up')
           console.log(data) 
           if(data[0].id_str == undefined){
+            console.log('when imposter sus')
              reason = 'Suspended'
              data[0].screen_name = info[i].screen_name
              data[0].name = info[i].name
@@ -92,7 +93,8 @@ async function compare(){
               reason = 'Unfollowed All/Locked'
             } 
            let funkyinfo = await postdm('friendships/create', {user_id: data[0].id_str})
-            if(funkyinfo){
+            if(funkyinfo.errors){
+              console.log('wocky slush')
               reason = 'Blocked'
             }
             await post('direct_messages/events/new', {event:{type: 'message_create', message_create: {target:{recipient_id: `${userid}`}, message_data:{text: `userid: ${data[0].id_str} \n handle: @${data[0].screen_name} \n  Reason: ${reason}`}}}})
@@ -102,6 +104,5 @@ async function compare(){
       reason = 'Unfollowed'
       initial_ids = new_ids
       info = [] // huh
-      
      await main()
     }
