@@ -93,7 +93,7 @@ async function compare(){
               reason = 'Unfollowed All/Locked'
             } 
            let funkyinfo = await postdm('friendships/create', {user_id: data[0].id_str})
-            if(funkyinfo.errors){
+            if(funkyinfo){
               console.log('wocky slush')
               reason = 'Blocked'
             }
