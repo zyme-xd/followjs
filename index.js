@@ -57,13 +57,18 @@ async function getid(){
   return ids
 }
 async function compare(){
-  let reason = 'Unfollowed/Blocked'
+  let reason = 'Unfollowed'
     let new_ids = await getid()
     console.log('fetched new ids')
     for(i=0; info.length>i; i++){
       // if ur reading this i need to finish writing this for loop i took this pic b4 i finished this
       if(new_ids.indexOf(info[i].id_str) == -1){
        let data = await get('users/lookup', {user_id: info[i].id_str})
+       T.post('friendships/create.json', {user_id: data[0].id_str}, function(err, data, response){
+         if(errors[0].code == 162){
+            reason = 'Blocked'
+         }
+       })
           console.log(data) 
           if(data[0].id_str == undefined){
              reason = 'Suspended'
