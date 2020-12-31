@@ -66,10 +66,12 @@ async function compare(){
        let data = await get('users/lookup', {user_id: info[i].id_str})
           console.log(data) 
           if(data[0].id_str == undefined){
-             reason = 'Suspended/Locked'
+             reason = 'Suspended'
              data[0].screen_name = info[i].screen_name
              data[0].name = info[i].name
              data[0].id_str = info[i].id_str
+          } else if(data[0].friends_count == 0){
+            reason = 'Unfollowed All/Locked'
           }
           T.post('direct_messages/events/new', {event:{type: 'message_create', message_create: {target:{recipient_id: `${userid}`}, message_data:{text: `userid: ${data[0].id_str} \n handle: @${data[0].screen_name} \n  Reason: ${reason}`}}}})
           console.log(`userid: ${data[0].id_str} \n handle: ${data[0].name} \n nickname: ${data[0].screen_name}`)
