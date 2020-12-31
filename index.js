@@ -76,6 +76,6 @@ async function compare(){
       }
     }
     initial_ids = new_ids
-    info = []
+    info = [] // huh
    await main()
 }
