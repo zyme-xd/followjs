@@ -17,7 +17,7 @@ main()
  for(i=0; time > i; i++){
    if(i < time){
     subid = initial_ids.splice(0,99)
-    await delay(10000)
+    await delay(120000)
     info.push(await get('users/lookup', {user_id: subid}))
    } else if(i ==  time){
     subid = initial_ids.splice(0,initial_ids.length)
@@ -27,7 +27,7 @@ main()
  info = info.flat()
  console.log(info)
  while(true){
-  await delay(10000)
+  await delay(180000)
    await compare()
  }
 }
@@ -63,7 +63,7 @@ async function getid(){
   console.log(data)
   let ids = data.ids
   while (data.next_cursor) {
-    await delay(10000)
+    await delay(60000)
    data = await get('followers/ids', {screen_name: `${user}`, stringify_ids: true, cursor: data.next_cursor_str})
    console.log('fetching more')
    console.log(data)
