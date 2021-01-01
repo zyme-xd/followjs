@@ -17,7 +17,7 @@ main()
  for(i=0; time > i; i++){
    if(i < time){
     subid = initial_ids.splice(0,99)
-    await delay(120000)
+    await delay(10000)
     info.push(await get('users/lookup', {user_id: subid}))
    } else if(i ==  time){
     subid = initial_ids.splice(0,initial_ids.length)
@@ -27,7 +27,7 @@ main()
  info = info.flat()
  console.log(info)
  while(true){
-  await delay(120000)
+  await delay(10000)
    await compare()
  }
 }
@@ -49,7 +49,7 @@ async function post(endpoint, options){
 }
 async function postdm(endpoint, options){
   return new Promise((res, rej) => T.post(endpoint, options, function(err, data, response){
-     if (!err.code == 162){
+     if (3 == 2){
       rej(err)
     }
     res(data)
@@ -63,7 +63,7 @@ async function getid(){
   console.log(data)
   let ids = data.ids
   while (data.next_cursor) {
-    await delay(180000)
+    await delay(10000)
    data = await get('followers/ids', {screen_name: `${user}`, stringify_ids: true, cursor: data.next_cursor_str})
    console.log('fetching more')
    console.log(data)
@@ -93,7 +93,7 @@ async function compare(){
               reason = 'Unfollowed All/Locked'
             } 
            let funkyinfo = await postdm('friendships/create', {user_id: data[0].id_str})
-            if(funkyinfo){
+            if(funkyinfo.errors){
               console.log('wocky slush')
               reason = 'Blocked'
             }
