@@ -1,5 +1,4 @@
 const Twit = require('twit')
-let info = []
 let user = 'zyrnwtf'
 let userid = '1069424841676210176'
 global.initial_ids = []
@@ -10,6 +9,7 @@ const T = new Twit({
   access_token: process.env.ACCESS_TOKEN,
   access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 })
+let info = []
 main()
 async function main() {
   initial_ids = await getid()
@@ -60,10 +60,7 @@ async function delay(ms) {
   return new Promise(res => setTimeout(res, ms))
 }
 async function getid() {
-  let data = await get('followers/ids', {
-    screen_name: `${user}`,
-    stringify_ids: true
-  })
+  let data = await get('followers/ids', {screen_name: `${user}`,stringify_ids: true})
   console.log(data)
   let ids = data.ids
   while (data.next_cursor) {
@@ -82,7 +79,6 @@ async function compare() {
   let new_ids = await getid()
   console.log('fetched new ids')
   for (i = 0; info.length > i; i++) {
-    // if ur reading this i need to finish writing this for loop i took this pic b4 i finished this
     if (new_ids.indexOf(info[i].id_str) == -1) {
       let data = await get('users/lookup', {user_id: info[i].id_str})
       console.log('looking up')
