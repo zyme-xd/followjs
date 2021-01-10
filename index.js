@@ -87,12 +87,12 @@ async function compare() {
         reason = 'Unfollowed All/Locked'
       } 
       let funkyinfo = await postalt('friendships/create', {user_id: data[0].id_str})
-      if (funkyinfo.errors) {
+      if (funkyinfo.errors[0].code == 162) {
         console.log('wocky slush')
         reason = 'Blocked'
       }
-      let suscheck = await postalt('users/lookup', {user_id: info[i].id_str})
-       if (suscheck.errors) {
+      let suscheck = await postalt('friendships/create', {user_id: info[i].id_str})
+       if (suscheck.errors[0].code == 108) {
         console.log('when imposter sus')
         reason = 'Suspended'
         info[0].screen_name = info[i].screen_name
