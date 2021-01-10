@@ -48,7 +48,7 @@ async function post(endpoint, options) {
     res(data)
   }))
 }
-async function postdm(endpoint, options) {
+async function postalt(endpoint, options) {
   return new Promise((res, rej) => T.post(endpoint, options, function (err, data, response) {
     if (3 == 2) {
       rej(err)
@@ -83,19 +83,21 @@ async function compare() {
       let data = await get('users/lookup', {user_id: info[i].id_str})
       console.log('looking up')
       console.log(data)
-      if (data[0].id_str == undefined) {
-        console.log('when imposter sus')
-        reason = 'Suspended'
-        data[0].screen_name = info[i].screen_name
-        data[0].name = info[i].name
-        data[0].id_str = info[i].id_str
-      } else if (data[0].friends_count == 0) {
+        if (data[0].friends_count == 0) {
         reason = 'Unfollowed All/Locked'
-      }
-      let funkyinfo = await postdm('friendships/create', {user_id: data[0].id_str})
+      } 
+      let funkyinfo = await postalt('friendships/create', {user_id: data[0].id_str})
       if (funkyinfo.errors) {
         console.log('wocky slush')
         reason = 'Blocked'
+      }
+      let suscheck = await postalt('users/lookup', {user_id: info[i].id_str})
+       if (suscheck.errors) {
+        console.log('when imposter sus')
+        reason = 'Suspended'
+        info[0].screen_name = info[i].screen_name
+        data[0].name = info[i].name
+        data[0].id_str = info[i].id_str
       }
       await post('direct_messages/events/new', {event:{type: 'message_create',message_create:{target:{recipient_id: `${userid}`},message_data: {text: `userid: ${data[0].id_str} \n handle: @${data[0].screen_name} \n  Reason: ${reason}`}}}})
       console.log(`userid: ${data[0].id_str} \n handle: ${data[0].name} \n nickname: ${data[0].screen_name}`)
