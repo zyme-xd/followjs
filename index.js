@@ -98,7 +98,7 @@ async function compare() {
         if (suscheck.errors[0].code == 108) {
           console.log('when imposter sus')
           reason = 'Suspended'
-          info[0].screen_name = info[i].screen_name
+          data[0].screen_name = info[i].screen_name
           data[0].name = info[i].name
           data[0].id_str = info[i].id_str
         }
