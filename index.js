@@ -74,7 +74,7 @@ async function getid() {
 }
 async function compare() {
   console.log('comparison starting')
-  global.reason = 'Unfollowed'
+  global.reason = 'Unfollowed/Restricted'
   let new_ids = await getid()
   console.log('fetched new ids')
   for (i = 0; info.length > i; i++) {
@@ -84,7 +84,7 @@ async function compare() {
       console.log(data)
       if (data[0].friends_count == 0) {
         console.log('huh')
-        reason = 'Unfollowed All/Locked'
+        reason = 'Unfollowed All/Restricted'
       }
         
       try {let funkyinfo = await postalt('friendships/create', {user_id: data[0].id_str})
