@@ -86,7 +86,11 @@ async function compare() {
         console.log('huh')
         reason = 'Unfollowed All/Restricted'
       }
-        
+      // hey, future zyrn! 
+      // make sure to implement this when you have the chance to test it
+      // 1. If user unfollowed, but still is following people fetch list and see if user id is there
+      // 2. if user id is there, do ``reason = 'Restricted'``
+      // 3. if else, do absolutely nothing (maybe a console.log)
       try {let funkyinfo = await postalt('friendships/create', {user_id: data[0].id_str})
       if (funkyinfo.errors[0].code == 162) {
         console.log('wocky slush')
