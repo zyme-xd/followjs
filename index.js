@@ -74,7 +74,7 @@ async function getid() {
 }
 async function compare() {
   console.log('comparison starting')
-  global.reason = 'Unfollowed/Restricted'
+  global.reason = 'Unfollowed'
   let new_ids = await getid()
   console.log('fetched new ids')
   for (i = 0; info.length > i; i++) {
